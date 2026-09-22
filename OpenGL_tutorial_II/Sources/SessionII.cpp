@@ -201,11 +201,68 @@ int main(int argc, char **argv)
 
 	// render loop
 	// -----------
+	float xRotationRate = 1.0f;
+	float xRotationAngle = glm::radians(90.0f);
+	const float rotationRateStep = 5.0f;
+	float lastFrameTime = (float)glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
+		float currentFrameTime = (float)glfwGetTime();
+		float deltaTime = currentFrameTime - lastFrameTime;
+		lastFrameTime = currentFrameTime;
+
+		// create transformations
+		glm::mat4 model(1.0f);
+		glm::mat4 view(1.0f);
+		glm::mat4 projection(1.0f);
+
 		// input
 		// -----
 		processInput(window);
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+		{
+			bool scaleable = true;
+			std::cout << "Scaleable = true" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) || glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS)
+		{
+			bool translation = true;
+			std::cout << "Translation = true" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)	//U
+		{
+			xRotationRate += rotationRateStep * deltaTime;
+			std::cout << "Increase Rotation Rate in X axis " << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)	//J
+		{
+			xRotationRate = std::max(0.0f, xRotationRate - rotationRateStep * deltaTime);
+			std::cout << "Decrease Rotation Rate in X axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)	//I
+		{
+			std::cout << "Increase Rotation Rate in Y axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)	//K
+		{
+			std::cout << "Decrease Rotation Rate in Y axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)	//O
+		{
+			std::cout << "Increase Rotation Rate in Z axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)	//L
+		{
+			std::cout << "Decrease Rotation Rate in Z axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)	//R
+		{
+			std::cout << "Reset Rotation Rate in all axis" << std::endl;
+		}
+		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
+		{
+			std::cout << "Uniform Scaling" << std::endl;
+		}
 
 		// render
 		// ------
@@ -221,12 +278,6 @@ int main(int argc, char **argv)
 		// activate shader
 		ourShader.use();
 
-		// create transformations
-		glm::mat4 model(1.0f);
-		glm::mat4 view(1.0f);
-		glm::mat4 projection(1.0f);
-
-
 		if (virgin)
 		{
 			std::cout << "model matrix initialization" << std::endl <<
@@ -236,7 +287,8 @@ int main(int argc, char **argv)
 		// Applying transformation BACKWARDs.  We want this box to rotate in position so first we apply a translation (the last applied to the box)
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
 
-		glm::vec3 angle(glm::radians(90.f),0.0f,0.0f); // rotate 90 degrees in x initially... just to match up example in slides
+		xRotationAngle += xRotationRate * deltaTime;
+		glm::vec3 angle(xRotationAngle, 0.0f, 0.0f);
 		if (virgin)
 		{
 			std::cout << "model matrix after translation of -1 in z dimension" << std::endl <<
