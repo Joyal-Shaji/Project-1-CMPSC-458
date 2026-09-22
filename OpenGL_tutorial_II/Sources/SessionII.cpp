@@ -201,8 +201,15 @@ int main(int argc, char **argv)
 
 	// render loop
 	// -----------
+	// X rotations 
 	float xRotationRate = 1.0f;
 	float xRotationAngle = glm::radians(90.0f);
+	// Y rotations
+	float yRotationRate = 1.0f;
+	float yRotationAngle = glm::radians(90.0f);
+	// Z rotations
+	float zRotationRate = 1.0f;
+	float zRotationAngle = glm::radians(90.0f);
 	const float rotationRateStep = 5.0f;
 	float lastFrameTime = (float)glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -241,10 +248,12 @@ int main(int argc, char **argv)
 		}
 		if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)	//I
 		{
+			yRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Y axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)	//K
 		{
+			yRotationRate = std::max(0.0f, yRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Y axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)	//O
@@ -288,18 +297,12 @@ int main(int argc, char **argv)
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
 
 		xRotationAngle += xRotationRate * deltaTime;
-		glm::vec3 angle(xRotationAngle, 0.0f, 0.0f);
+		yRotationAngle += yRotationRate * deltaTime;
+		glm::vec3 angle(xRotationAngle, yRotationAngle, 0.0f);
 		if (virgin)
 		{
 			std::cout << "model matrix after translation of -1 in z dimension" << std::endl <<
 				glm::to_string(model) << std::endl << std::endl;
-		}
-		else
-		{
-			//if after first time, rotate by how much time has elapsed since beginning of running the program
-			//  You should use time for doing continuous rotation rather than just adding a value since a fast computer will rotate too quickly
-			angle.y = (float)glfwGetTime();
-			angle.z = (float)glfwGetTime();
 		}
 
 		// Then we rotate the object based on how much time has passed (so continually rotating it) 
