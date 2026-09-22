@@ -288,6 +288,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				yPosition += 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -305,6 +306,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				yPosition -= 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -322,6 +324,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				zPosition += 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -339,6 +342,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				zPosition -= 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -361,7 +365,7 @@ int main(int argc, char **argv)
 			xPosition = 0.0f;
 			yPosition = 0.0f;
 			zPosition = -1.0f;
-			std::cout << "Reset Rotation Rate in all axis" << std::endl;
+			std::cout << "Reset all transformations" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
 		{
