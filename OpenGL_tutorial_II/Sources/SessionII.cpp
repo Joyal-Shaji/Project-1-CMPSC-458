@@ -210,6 +210,12 @@ int main(int argc, char **argv)
 	// Z rotations
 	float zRotationRate = 1.0f;
 	float zRotationAngle = glm::radians(90.0f);
+	// X scaling
+	float xScale = 1.0f;
+	// Y scaling
+	float yScale = 1.0f;
+	// Z scaling
+	float zScale = 1.0f;
 	const float rotationRateStep = 5.0f;
 	float lastFrameTime = (float)glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -222,49 +228,118 @@ int main(int argc, char **argv)
 		glm::mat4 model(1.0f);
 		glm::mat4 view(1.0f);
 		glm::mat4 projection(1.0f);
+		bool scaleable = false;
+		bool translation = false;
 
 		// input
 		// -----
 		processInput(window);
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
 		{
-			bool scaleable = true;
-			std::cout << "Scaleable = true" << std::endl;
+			scaleable = true;
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) || glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS)
 		{
-			bool translation = true;
-			std::cout << "Translation = true" << std::endl;
+			translation = true;
 		}
 		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)	//U
 		{
-			xRotationRate += rotationRateStep * deltaTime;
-			std::cout << "Increase Rotation Rate in X axis " << std::endl;
+			if (scaleable)
+			{
+				xScale += 0.5f * deltaTime;
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			else if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			else
+			{
+				xRotationRate += rotationRateStep * deltaTime;
+				std::cout << "Increase Rotation Rate in X axis " << std::endl;
+			}
+			
 		}
 		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)	//J
 		{
+			if (scaleable)
+			{
+				xScale = std::max(0.0f, xScale - 0.5f * deltaTime);
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			else if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			else
+			{
 			xRotationRate = std::max(0.0f, xRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in X axis" << std::endl;
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)	//I
 		{
+			if (scaleable)
+			{
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			if (!scaleable || !translation)
+			{
 			yRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Y axis" << std::endl;
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)	//K
 		{
+			if (scaleable)
+			{
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			if (!scaleable || !translation)
+			{
 			yRotationRate = std::max(0.0f, yRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Y axis" << std::endl;
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)	//O
 		{
+			if (scaleable)
+			{
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			if (!scaleable || !translation)
+			{
 			zRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Z axis" << std::endl;
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)	//L
 		{
+			if (scaleable)
+			{
+				std::cout << "Scaleable = true" << std::endl;
+			}
+			if (translation)
+			{
+				std::cout << "Translation = true" << std::endl;
+			}
+			if (!scaleable || !translation)
+			{
 			zRotationRate = std::max(0.0f, zRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Z axis" << std::endl;
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)	//R
 		{
@@ -323,8 +398,8 @@ int main(int argc, char **argv)
 				glm::to_string(model) << std::endl <<  "Angle: " << glm::to_string(glm::degrees(angle)) <<std::endl << std::endl;
 		}
 
-		// Finally, we scale the object by 1.25 in each dimention
-		model = glm::scale(model, glm::vec3(1.25f, 1.25f, 1.25f));  		// M scaled by the vector 
+		// Finally, we scale the object by the specified scale factors in each dimension
+		model = glm::scale(model, glm::vec3(xScale, 1.25f, 1.25f));  		// M scaled by the vector 
 
 		if (virgin)
 		{
