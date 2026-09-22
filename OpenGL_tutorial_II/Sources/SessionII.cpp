@@ -258,14 +258,19 @@ int main(int argc, char **argv)
 		}
 		if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)	//O
 		{
+			zRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Z axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)	//L
 		{
+			zRotationRate = std::max(0.0f, zRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Z axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)	//R
 		{
+			xRotationRate = 1.0f;
+			yRotationRate = 1.0f;
+			zRotationRate = 1.0f;
 			std::cout << "Reset Rotation Rate in all axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
@@ -298,7 +303,8 @@ int main(int argc, char **argv)
 
 		xRotationAngle += xRotationRate * deltaTime;
 		yRotationAngle += yRotationRate * deltaTime;
-		glm::vec3 angle(xRotationAngle, yRotationAngle, 0.0f);
+		zRotationAngle += zRotationRate * deltaTime;
+		glm::vec3 angle(xRotationAngle, yRotationAngle, zRotationAngle);
 		if (virgin)
 		{
 			std::cout << "model matrix after translation of -1 in z dimension" << std::endl <<
