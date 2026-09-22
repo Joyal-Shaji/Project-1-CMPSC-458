@@ -201,21 +201,21 @@ int main(int argc, char **argv)
 
 	// render loop
 	// -----------
-	// X rotations 
+	// Axis rotation rates and angles
 	float xRotationRate = 1.0f;
 	float xRotationAngle = glm::radians(90.0f);
-	// Y rotations
 	float yRotationRate = 1.0f;
 	float yRotationAngle = glm::radians(90.0f);
-	// Z rotations
 	float zRotationRate = 1.0f;
 	float zRotationAngle = glm::radians(90.0f);
-	// X scaling
+	// Axis scaling
 	float xScale = 1.25f;
-	// Y scaling
 	float yScale = 1.25f;
-	// Z scaling
 	float zScale = 1.25f;
+	// Axis Positions
+	float xPosition = 0.0f;
+	float yPosition = 0.0f;
+	float zPosition = -1.0f;
 	const float rotationRateStep = 5.0f;
 	float lastFrameTime = (float)glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -251,6 +251,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				xPosition += 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -269,6 +270,7 @@ int main(int argc, char **argv)
 			}
 			else if (translation)
 			{
+				xPosition -= 0.5f * deltaTime;
 				std::cout << "Translation = true" << std::endl;
 			}
 			else
@@ -315,13 +317,14 @@ int main(int argc, char **argv)
 		{
 			if (scaleable)
 			{
+				zScale += 0.5f * deltaTime;
 				std::cout << "Scaleable = true" << std::endl;
 			}
-			if (translation)
+			else if (translation)
 			{
 				std::cout << "Translation = true" << std::endl;
 			}
-			if (!scaleable || !translation)
+			else
 			{
 			zRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Z axis" << std::endl;
@@ -331,13 +334,14 @@ int main(int argc, char **argv)
 		{
 			if (scaleable)
 			{
+				zScale = std::max(0.0f, zScale - 0.5f * deltaTime);
 				std::cout << "Scaleable = true" << std::endl;
 			}
-			if (translation)
+			else if (translation)
 			{
 				std::cout << "Translation = true" << std::endl;
 			}
-			if (!scaleable || !translation)
+			else
 			{
 			zRotationRate = std::max(0.0f, zRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Z axis" << std::endl;
@@ -353,6 +357,10 @@ int main(int argc, char **argv)
 			xScale = 1.25f;
 			yScale = 1.25f;
 			zScale = 1.25f;
+			// Reset all positions to originals
+			xPosition = 0.0f;
+			yPosition = 0.0f;
+			zPosition = -1.0f;
 			std::cout << "Reset Rotation Rate in all axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
@@ -381,7 +389,7 @@ int main(int argc, char **argv)
 		}
 		
 		// Applying transformation BACKWARDs.  We want this box to rotate in position so first we apply a translation (the last applied to the box)
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(xPosition, yPosition, zPosition));
 
 		xRotationAngle += xRotationRate * deltaTime;
 		yRotationAngle += yRotationRate * deltaTime;
@@ -406,7 +414,7 @@ int main(int argc, char **argv)
 		}
 
 		// Finally, we scale the object by the specified scale factors in each dimension
-		model = glm::scale(model, glm::vec3(xScale, yScale, 1.25f));  		// M scaled by the vector 
+		model = glm::scale(model, glm::vec3(xScale, yScale, zScale));  		// M scaled by the vector 
 
 		if (virgin)
 		{
