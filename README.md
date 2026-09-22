@@ -39,6 +39,27 @@ Clone or download the code to your work directory: `$home = path/to/files`
     - Make sure you are in the CPP folder that has OpenGL_tutorial_I and OpenGL_tutorial_II
     - Open a terminal and run `cmake --build build-mac` to build the project and verify that it was built
     - Once you verify it was built, run `./build-mac/OpenGL_tutorial_II/OpenGL_tutorial_II` to open the window to view the cube and play around with it
+4. Controls:
+    - U: Increase rotation rate in X axis
+    - J: Decrease rotation rate in X axis
+    - I: Increase rotation rate in Y axis
+    - K: Decrease rotation rate in Y axis
+    - O: Increase rotation rate in Z axis
+    - L: Decrease rotation rate in Z axis
+    - R: Reset all transformations
+    - P: Uniform scaling in all axis
+    - Shift + U: Increase scale in X axis
+    - Shift + J: Decrease scale in X axis
+    - Shift + I: Increase scale in Y axis
+    - Shift + K: Decrease scale in Y axis
+    - Shift + O: Increase scale in Z axis
+    - Shift + L: Decrease scale in Z axis
+    - Ctrl + U: Positive translation in X axis
+    - Ctrl + J: Negative translation in X axis
+    - Ctrl + I: Positive translation in Y axis
+    - Ctrl + K: Negative translation in Y axis
+    - Ctrl + O: Positive translation in Z axis
+    - Ctrl + L: Negative translation in Z axis
 
 ## How does the code work?
 After you have successfuly compiled the project following our instructions, the **OpenGL_tutorial_I** part will show how to open a new window, display a triangle and has a basic *game loop*. A *game loop* is the while loop which contains the code that runs between every frame.
