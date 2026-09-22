@@ -211,11 +211,11 @@ int main(int argc, char **argv)
 	float zRotationRate = 1.0f;
 	float zRotationAngle = glm::radians(90.0f);
 	// X scaling
-	float xScale = 1.0f;
+	float xScale = 1.25f;
 	// Y scaling
-	float yScale = 1.0f;
+	float yScale = 1.25f;
 	// Z scaling
-	float zScale = 1.0f;
+	float zScale = 1.25f;
 	const float rotationRateStep = 5.0f;
 	float lastFrameTime = (float)glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -281,13 +281,14 @@ int main(int argc, char **argv)
 		{
 			if (scaleable)
 			{
+				yScale += 0.5f * deltaTime;
 				std::cout << "Scaleable = true" << std::endl;
 			}
-			if (translation)
+			else if (translation)
 			{
 				std::cout << "Translation = true" << std::endl;
 			}
-			if (!scaleable || !translation)
+			else
 			{
 			yRotationRate += rotationRateStep * deltaTime;
 			std::cout << "Increase Rotation Rate in Y axis" << std::endl;
@@ -297,13 +298,14 @@ int main(int argc, char **argv)
 		{
 			if (scaleable)
 			{
+				yScale = std::max(0.0f, yScale - 0.5f * deltaTime);
 				std::cout << "Scaleable = true" << std::endl;
 			}
-			if (translation)
+			else if (translation)
 			{
 				std::cout << "Translation = true" << std::endl;
 			}
-			if (!scaleable || !translation)
+			else
 			{
 			yRotationRate = std::max(0.0f, yRotationRate - rotationRateStep * deltaTime);
 			std::cout << "Decrease Rotation Rate in Y axis" << std::endl;
@@ -343,9 +345,14 @@ int main(int argc, char **argv)
 		}
 		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)	//R
 		{
+			// Reset all rotation rates to 1.0f
 			xRotationRate = 1.0f;
 			yRotationRate = 1.0f;
 			zRotationRate = 1.0f;
+			// Reset all scaling to 1.25f
+			xScale = 1.25f;
+			yScale = 1.25f;
+			zScale = 1.25f;
 			std::cout << "Reset Rotation Rate in all axis" << std::endl;
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
@@ -399,7 +406,7 @@ int main(int argc, char **argv)
 		}
 
 		// Finally, we scale the object by the specified scale factors in each dimension
-		model = glm::scale(model, glm::vec3(xScale, 1.25f, 1.25f));  		// M scaled by the vector 
+		model = glm::scale(model, glm::vec3(xScale, yScale, 1.25f));  		// M scaled by the vector 
 
 		if (virgin)
 		{
