@@ -35,6 +35,10 @@ Clone or download the code to your work directory: `$home = path/to/files`
         - You may replace the 4 with the number of cores on your machine
     - From the `$home/Build` directory, run `./OpenGL_tutorial_I` to run the project
     - You can edit the source files with whatever editor you like, though if you want to add more files, you will have to run CMake again (which you can from the command line with `cmake ..` from the `Build` folder and the files will automatically be added if they are in the same locations as the starter code)
+3. Running the project:
+    - Make sure you are in the CPP folder that has OpenGL_tutorial_I and OpenGL_tutorial_II
+    - Open a terminal and run `cmake --build build-mac` to build the project and verify that it was built
+    - Once you verify it was built, run `./build-mac/OpenGL_tutorial_II/OpenGL_tutorial_II` to open the window to view the cube and play around with it
 
 ## How does the code work?
 After you have successfuly compiled the project following our instructions, the **OpenGL_tutorial_I** part will show how to open a new window, display a triangle and has a basic *game loop*. A *game loop* is the while loop which contains the code that runs between every frame.

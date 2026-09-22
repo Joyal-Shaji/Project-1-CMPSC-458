@@ -369,7 +369,10 @@ int main(int argc, char **argv)
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)	//P
 		{
-			std::cout << "Uniform Scaling" << std::endl;
+			xScale += 0.5f * deltaTime;
+			yScale += 0.5f * deltaTime;
+			zScale += 0.5f * deltaTime;
+			std::cout << "Scaleable = true" << std::endl;
 		}
 
 		// render
